@@ -40,15 +40,18 @@ function create_post_type() {
 add_action( 'init', 'create_post_type' );
 
 function testimonial($atts, $content = null){
-  global $wpdb; //set up the global database
+
+  //set up the global database
+  global $wpdb;
+
   //This sets up the short code to accept the id variable only
   extract(shortcode_atts(array(
     "id" => 16,
   ), $atts));
 
   //Query the post database for testimonials with the proper id
-  $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_type = 'testimonials' AND ID = " . $id;
-  //print $q;
+  $q = "SELECT * FROM " . $wpdb->posts .
+       " WHERE post_type = 'testimonials' AND ID = " . $id;
 
   //r is the result of the query
   $r = $wpdb->get_row($q);
@@ -63,7 +66,6 @@ function testimonial($atts, $content = null){
   //return the guid of the page
   $link = $r->guid;
 
-
   //Query to pull the primary image
   $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_parent = " . $id;
 
@@ -71,11 +73,15 @@ function testimonial($atts, $content = null){
   $p = $wpdb->get_row($q);
   $p_link = $p->guid;
 
+  //Queue up the styles for the plugin
+  //Research this later to find out where this really needs to be placed!
   $z = plugins_url( 'testimonial_style.css', __FILE__ );
   wp_register_style( 'testimonial_bc_style', $z );
   wp_enqueue_style('testimonial_bc_style');
 
-  return '<a href="'.$link.'"><div class="testimonial_bc"><img src=' . $p_link . '>' . $to_post . '... Read more. </div></a>';
+  //return the string of all the information
+  return '<a href="' . $link . '"><div class="testimonial_bc"><img src=' . $p_link . '>'
+        . $to_post . '... Read more. </div></a>';
 }
 add_shortcode("testimonial", "testimonial");
 
