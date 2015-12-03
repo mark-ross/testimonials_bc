@@ -1,5 +1,6 @@
 .testimonial_bc {
-  background: blue;
+  background: gray;
   font-size: 14px;
   border-radius: 25px;
+  display: inline-block;
 }

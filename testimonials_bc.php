@@ -42,15 +42,19 @@ function testimonial($atts, $content = null){
   //This sets up the short code to accept the id variable only
   extract(shortcode_atts(array(
     "id" => 16,
+    "name" => "mark-ross",
+    "title" => "Mark Ross"
   ), $atts));
 
   //Query the post database for testimonials with the proper id
   $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_type = 'testimonials' AND ID = " . $id;
-  //print $q;
 
   //r is the result of the query
   $r = $wpdb->get_row($q);
   //print $r->post_content;
+  $post_name = $r->title;
+  $to_post = substr($r->post_content, 80);
+  $link = $r->guid;
 
   //Query to pull the primary image
   $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_parent = " . $id;
