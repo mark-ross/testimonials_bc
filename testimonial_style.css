@@ -1,6 +1,15 @@
 .testimonial_bc {
   background: gray;
-  font-size: 14px;
-  border-radius: 25px;
+  font-size: 12px;
   display: inline-block;
+  width: 32%;
+  height: 20em;
+}
+
+.testimonial_bc img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  max-width: 70%;
 }

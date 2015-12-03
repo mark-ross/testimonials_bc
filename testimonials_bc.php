@@ -56,7 +56,7 @@ function testimonial($atts, $content = null){
   //r is the result of the query
   $r = $wpdb->get_row($q);
   //print $r->post_content;
-  $post_name = $r->title;
+  $post_name = $r->post_title;
   $to_post = substr($r->post_content, 0, 80);
   $link = $r->guid;
 
@@ -72,7 +72,7 @@ function testimonial($atts, $content = null){
   wp_enqueue_style('testimonial_bc_style');
 
   //print out the results of the search
-  return '<a href = ' . $link . '<div class="testimonial_bc"><img src=' . $pic_link . '>'
+  return '<a href = ' . $link . '><div class="testimonial_bc"><img src=' . $pic_link . '>'
          . '<b>' . $post_name . '</b> - ' . $to_post . '... Read more.</div></a>';
 }
 add_shortcode("testimonial", "testimonial");
