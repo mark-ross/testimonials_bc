@@ -47,11 +47,11 @@ function testimonial($atts, $content = null){
   ), $atts));
 
   //Query the post database for testimonials with the proper id
-  $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_type = 'testimonials' AND ID = " . $id;
+  $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_type = 'testimonials'";
 
   if($id != false){ $q .= " AND ID = " . $id; }
-  elseif($name != false){ $q .= "AND post_name = " . $name;}
-  elseif($title != false){ $q .= "AND post_title = " . $title;}
+  elseif($name != false){ $q .= " AND post_name = " . $name;}
+  elseif($title != false){ $q .= " AND post_title = " . $title;}
 
   //r is the result of the query
   $r = $wpdb->get_row($q);
