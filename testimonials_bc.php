@@ -41,19 +41,23 @@ function testimonial($atts, $content = null){
   global $wpdb; //set up the global database
   //This sets up the short code to accept the id variable only
   extract(shortcode_atts(array(
-    "id" => 16,
-    "name" => "mark-ross",
-    "title" => "Mark Ross"
+    "id" => false,
+    "name" => false,
+    "title" => false,
   ), $atts));
 
   //Query the post database for testimonials with the proper id
   $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_type = 'testimonials' AND ID = " . $id;
 
+  if($id != false){ $q .= " AND ID = " . $id; }
+  elseif($name != false){ $q .= "AND post_name = " . $name;}
+  elseif($title != false){ $q .= "AND post_title = " . $title;}
+
   //r is the result of the query
   $r = $wpdb->get_row($q);
   //print $r->post_content;
   $post_name = $r->title;
-  $to_post = substr($r->post_content, 80);
+  $to_post = substr($r->post_content, 0, 80);
   $link = $r->guid;
 
   //Query to pull the primary image
@@ -61,13 +65,15 @@ function testimonial($atts, $content = null){
 
   //get the row with the link to the image
   $p = $wpdb->get_row($q);
+  $pic_link = $p->guid;
 
   $z = plugins_url( 'testimonial_style.css', __FILE__ );
   wp_register_style( 'testimonial_bc_style', $z );
   wp_enqueue_style('testimonial_bc_style');
 
   //print out the results of the search
-  return '<div class="testimonial_bc"><img src=' . $p->guid . '>' . $r->post_content . ' </div>';
+  return '<a href = ' . $link . '<div class="testimonial_bc"><img src=' . $pic_link . '>'
+         . '<b>' . $post_name . '</b> - ' . $to_post . '... Read more.</div></a>';
 }
 add_shortcode("testimonial", "testimonial");
 
