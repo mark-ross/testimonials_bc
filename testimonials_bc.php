@@ -50,8 +50,8 @@ function testimonial($atts, $content = null){
   $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_type = 'testimonials'";
 
   if($id != false){ $q .= " AND ID = " . $id; }
-  elseif($name != false){ $q .= " AND post_name = " . $name;}
-  elseif($title != false){ $q .= " AND post_title = " . $title;}
+  elseif($name != false){ $q .= " AND post_name = '" . $name . "'";}
+  elseif($title != false){ $q .= " AND post_title = '" . $title ."'";}
 
   //r is the result of the query
   $r = $wpdb->get_row($q);
@@ -59,9 +59,10 @@ function testimonial($atts, $content = null){
   $post_name = $r->post_title;
   $to_post = substr($r->post_content, 0, 80);
   $link = $r->guid;
+  $post_id = $r->ID;
 
   //Query to pull the primary image
-  $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_parent = " . $id;
+  $q = "SELECT * FROM " . $wpdb->posts . " WHERE post_parent = " . $post_id;
 
   //get the row with the link to the image
   $p = $wpdb->get_row($q);
